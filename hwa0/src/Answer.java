@@ -1,6 +1,9 @@
 import java.util.*;
-
+import java.time.*;
+import java.time.format.DateTimeFormatter;
 public class Answer {
+
+	
 
    public static void main (String[] param) {
 
@@ -8,11 +11,18 @@ public class Answer {
       //   that do not need an independent method!
     
       // conversion double -> String
-
+   		String str = Double.toString(54);
+   		System.out.println(str);
       // conversion String -> int
-
-      // "hh:mm:ss"
-
+		int integer = Integer.parseInt("123"); // will throw NumberFormatException incase of invalid input containing alphabet
+		System.out.println(integer);
+      // "hh:mm:ss" 
+		Instant instant = Clock.systemUTC().instant();
+		DateTimeFormatter formatter =  DateTimeFormatter.ofPattern("HH:mm:ss") //HH instead of hh for 24 hour
+                     								.withZone( ZoneId.systemDefault() );
+		
+		String timestamp = formatter.format(instant);
+		System.out.println(timestamp);
       // cos 45 deg
 
       // table of square roots
