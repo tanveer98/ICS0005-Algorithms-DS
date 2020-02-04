@@ -1,3 +1,3 @@
 clear;
-javac -cp src src/Answer.java;
+javac -Xlint:deprecation -cp src src/Answer.java;
 java -cp src Answer;
