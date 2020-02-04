@@ -9,7 +9,7 @@ import java.util.StringTokenizer;
 import java.lang.Thread;
 import java.time.Duration;
 import java.util.Optional;
-
+import java.nio.charset.StandardCharsets.*;
 
 public class Answer {
 	
@@ -40,12 +40,12 @@ public class Answer {
 		});
 
 	  // reverse case
-		String firstString = "ABcd12";
+		String firstString = "JÜriöÖülestõus1Ää";
 		String result = reverseCase (firstString);
 		System.out.println ("\"" + firstString + "\" -> \"" + result + "\"");
 
       // reverse string
-		System.out.println(reverseString("abcd123"));
+		System.out.println(reverseString("Abcd123"));
       // word count
 		String s = "How  many	 words   here";
 		int nw = countWords (s);
@@ -53,7 +53,7 @@ public class Answer {
 		s = "Sneed's Seed and Feed 	Formerly     Chuck's";
 		nw = countWords(s);
 		System.out.println (s + "\t" + String.valueOf (nw));
-		s = "test \n test\t      testyyyy";
+		s = "\t\ttest \n test\t      testyyyy";
 		nw = countWords(s);
 		System.out.println (s + "\t" + String.valueOf (nw));
 
@@ -127,7 +127,11 @@ public class Answer {
    		if(idx == 0 && !isSpace){ 
    			wc++;
    		}
-   		else{ 
+   		else{
+   			if(idx == 0) { 
+   				idx++; 
+   				continue;
+   			}
    			if(Character.isWhitespace(charArr[idx -1]) && !isSpace)  {
    				wc++;
    			}
@@ -160,7 +164,6 @@ public static String reverseString(String s) {
 	return sb.toString();
 }
 
-/***************** String Reverse End *****************/
 
 /***************** Case Reverse *****************/
    /** Case-reverse on each character (overloaded)
@@ -185,7 +188,7 @@ public static String reverseString(String s) {
 
       return sb.toString(); // TODO!!! Your code here
 }
-/***************** Case-Reverse-END *****************/
+/***************** List reverse *****************/
 
    /** List reverse. Do not create a new list.
     * @param list list to reverse
