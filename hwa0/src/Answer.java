@@ -8,13 +8,11 @@ import java.util.stream.Stream;
 import java.util.StringTokenizer;
 import java.lang.Thread;
 import java.time.Duration;
-
+import java.util.Optional;
 
 
 public class Answer {
-
 	
-
 	public static void main (String[] param) throws InterruptedException {
 
       // TODO!!! Solutions to small problems 
@@ -36,9 +34,9 @@ public class Answer {
 		double cos45 = Math.cos(Math.toRadians(45d));
 		System.out.println(cos45);
       // table of square roots
-		IntStream.range(0, 101)
+		IntStream.range(0, 99)
 		.forEachOrdered(n -> {
-			System.out.println("Input: " + n + " SquareRoot: " + Math.sqrt(n));
+			//System.out.println("Input: " + n + " SquareRoot: " + Math.sqrt(n));
 		});
 
 	  // reverse case
@@ -75,6 +73,8 @@ public class Answer {
 
       // minimal element
 
+		Integer min = randList.stream().min(Integer::compareTo).get();
+		System.out.println(min);
       // HashMap tasks:
       //    create
       //    print all keys
@@ -88,6 +88,9 @@ public class Answer {
 		System.out.println ("Maximum: " + maximum (randList));
 	}
 
+
+/***************** MAX *****************/
+
    /** Finding the maximal element.
     * @param a Collection of Comparable elements
     * @return maximal element.
@@ -96,7 +99,8 @@ public class Answer {
    static public <T extends Object & Comparable<? super T>>
    T maximum (Collection<? extends T> a) 
    throws NoSuchElementException {
-      return null; // TODO!!! Your code here
+  	T max = a.stream().max((x,y) -> x.compareTo(y)).get();
+      return max;
 }
 
 
@@ -188,6 +192,8 @@ public static String reverseString(String s) {
     */
    public static <T extends Object> void reverseList (List<T> list)
    throws UnsupportedOperationException {
+   		Collections.reverse(list);
+   		
          // TODO!!! Your code here
    }
 }
