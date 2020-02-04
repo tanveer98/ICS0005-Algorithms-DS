@@ -1,6 +1,15 @@
 import java.util.*;
 import java.time.*;
 import java.time.format.DateTimeFormatter;
+import java.util.stream.IntStream;
+
+
+import java.util.ArrayDeque;
+
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
+
 public class Answer {
 
 	
@@ -20,19 +29,26 @@ public class Answer {
 		Instant instant = Clock.systemUTC().instant();
 		DateTimeFormatter formatter =  DateTimeFormatter.ofPattern("HH:mm:ss") //HH instead of hh for 24 hour
                      								.withZone( ZoneId.systemDefault() );
-		
 		String timestamp = formatter.format(instant);
 		System.out.println(timestamp);
       // cos 45 deg
-
+		double cos45 = Math.cos(Math.toRadians(45d));
+		System.out.println(cos45);
       // table of square roots
+		IntStream.range(0, 101)
+		.forEachOrdered(n -> {
+    	System.out.println("Input: " + n + " SquareRoot: " + Math.sqrt(n));
+		});
 
+	  // reverse case
       String firstString = "ABcd12";
       String result = reverseCase (firstString);
       System.out.println ("\"" + firstString + "\" -> \"" + result + "\"");
 
       // reverse string
 
+      System.out.println(reverseString("Testy"));
+      // word count
       String s = "How  many	 words   here";
       int nw = countWords (s);
       System.out.println (s + "\t" + String.valueOf (nw));
@@ -81,14 +97,54 @@ public class Answer {
       return 0; // TODO!!! Your code here
    }
 
+/***************** String Reverse *****************/
+
+private static Stream<Integer> reverse(IntStream intstream) {
+	//uses ArrayDeque as a stack instead of Stack class
+	//Stack inherits from the Vector class
+	//So when its being converted to stream, it goes through with it sequentially (FIFO)
+	//instead of the intended LIFO (its possible to use a linkedList instead of ArrayDeque)
+	Deque<Integer> stack = new ArrayDeque<>();
+	intstream.forEach(i -> {stack.push(i);});
+	return stack.stream();
+} 
+
+/** String-reverse 
+    * @param s String 
+    * @return String (reversed: abcd123 -> 321dcba)
+    */
+public static String reverseString(String s) {
+	StringBuilder sb = reverse(s.chars()).collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append);
+	return sb.toString();
+}
+
+/***************** String Reverse End *****************/
+
+/***************** Case Reverse *****************/
+   /** Case-reverse on each character (overloaded)
+    * @param c int (char expressed as int)
+    * @return int (lower -> upper, upper -> lower;otherwise c)
+    */
+   private static int reverseCase(int c) {
+   	return Character.isUpperCase(c) ? Character.toLowerCase(c) : Character.toUpperCase(c);
+   }
+
    /** Case-reverse. Upper -> lower AND lower -> upper.
     * @param s string
     * @return processed string
     */
    public static String reverseCase (String s) {
-      return null; // TODO!!! Your code here
+   	//Collect:
+   	//Supplier = SB.new, accumulator SB.appendCodePoint (takes int and combines it into SB)
+   	//Accumulator: SB.append(SB), takes 2 SB and combines it into one (is it inefficient? a new SB in each iteration?)
+   	StringBuilder sb = s.chars()
+   					.map(Answer::reverseCase)
+   					.collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append);
+      
+      return sb.toString(); // TODO!!! Your code here
    }
-
+/***************** Case-Reverse-END *****************/
+  
    /** List reverse. Do not create a new list.
     * @param list list to reverse
     */
