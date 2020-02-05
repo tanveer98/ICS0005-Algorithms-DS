@@ -74,12 +74,25 @@ public class Answer {
       // minimal element
 
 		Integer min = randList.stream().min(Integer::compareTo).get();
-		System.out.println(min);
+		System.out.println("The minimum value from the list is: " + min);
       // HashMap tasks:
       //    create
+		Map<String,String> map = new HashMap<>();
+		map.put("ICS0024", "Automated Testing");
+		map.put("ICS005", "Algorithms and DataStructure");
+		map.put("ICD0006", "JavaScript");
+		map.put("ICS0019", "Advanced Python");
+		map.put("ICS0026", "Cryptohraphy");
       //    print all keys
+		Set<String> keySet = map.keySet();
+		Iterator<String> it = keySet.iterator();
+		while(it.hasNext()) {
+			System.out.println("Key: " + it.next());
+		}
       //    remove a key
+		map.remove("ICD0006");
       //    print all pairs
+		map.forEach((k,v) -> System.out.println(k + " - " + v));
 
 		System.out.println ("Before reverse:  " + randList);
 		reverseList (randList);
@@ -138,8 +151,6 @@ public class Answer {
    		}
    		idx++;
    	}
-
-
    	return wc;
    }
 
@@ -195,8 +206,9 @@ public static String reverseString(String s) {
     */
    public static <T extends Object> void reverseList (List<T> list)
    throws UnsupportedOperationException {
-   		Collections.reverse(list);
    		
-         // TODO!!! Your code here
+      // TODO!!! Your code here
+	Collections.reverse(list);
+   		
    }
 }
