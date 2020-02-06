@@ -99,6 +99,28 @@ public class Answer {
 		System.out.println ("After reverse: " + randList);
 
 		System.out.println ("Maximum: " + maximum (randList));
+
+		ArrayList<String> sl = null;
+   		ArrayList<Double> dl = null;
+		ArrayList<Integer> l = null;
+
+			sl = new ArrayList<String> (Arrays.asList (new String[]{"A"}));
+      		System.out.println(Answer.maximum (sl));
+      		dl = new ArrayList<Double> (Arrays.asList (
+         			new Double[]{1., -1., 0., -1., 2.}));
+      		System.out.println(Answer.maximum (dl));
+      		sl = new ArrayList<String> (Arrays.asList (
+        	 		new String[]{"A", "C", "B"}));
+      		System.out.println(Answer.maximum (sl));
+
+		l = new ArrayList<Integer> (Arrays.asList (new Integer[]{1}));
+     		System.out.println(Answer.maximum (l));
+      		l = new ArrayList<Integer> (Arrays.asList (
+        		new Integer[]{1, -1, 0, -1, 2}));
+      		System.out.println(Answer.maximum (l));
+      		l = new ArrayList<Integer> (Arrays.asList (
+         		new Integer[]{-1, -1, -10, -1, -2}));
+      		System.out.println(Answer.maximum (l));
 	}
 
 
@@ -112,8 +134,7 @@ public class Answer {
    static public <T extends Object & Comparable<? super T>>
    T maximum (Collection<? extends T> a) 
    throws NoSuchElementException {
-  	T max = a.stream().max((x,y) -> x.compareTo(y)).get();
-      return max;
+      return Collections.max(a);
 }
 
 
