@@ -4,6 +4,8 @@ public class ColorSort {
    
    public static void main (String[] param) {
       // for debugging
+   	int x = TextIO.getlnInt();
+   	TextIO.putln(x);
    }
    
    public static void reorder (Color[] balls) {
