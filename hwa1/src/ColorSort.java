@@ -1,5 +1,5 @@
-
 import java.util.*;
+
 public class ColorSort {
    // similar to {red = 0, green = 1, blue = 2} in C/C++ enums.
    enum Color {
@@ -31,35 +31,36 @@ public class ColorSort {
    }
 
    public static void reorder(Color[] balls) {
-      Quick3way.sort(balls);
+      CountSort.sort(balls);
       // Arrays.sort(balls);
    }
 }
 
-class Quick3way {
+class CountSort {
 
-   public static final int RANGE = 3;
+   public static final int NUM_OF_COLOR = 3;
 
-   // Function to efficiently sort an array with many duplicated values
-   // using Counting Sort algorithm
-   public static void sort(ColorSort.Color[] arr) {
-      // create a new array to store counts of elements in the input array
-      int[] freq = new int[RANGE];
+   public static void sort(ColorSort.Color balls[]) {
 
-      // using value of elements in the input array as index,
-      // update their frequencies in the new array
-      for (ColorSort.Color c : arr) {
-         int i = c.getValue();
-         freq[i]++;
-      }
+      //array to store the frequency of each enums.
+      int frequency[] = new int[NUM_OF_COLOR];
 
-      // overwrite the input array with sorted order
-      int k = 0;
-      for (int i = 0; i < RANGE; i++) {
-         while (freq[i]-- > 0) {
-            arr[k++] = ColorSort.Color.valueOf(i);
+      Arrays.stream(balls)
+            .forEach(ball -> {
+               int color = ball.getValue();
+               ++frequency[color];
+             });
+
+      //Overwrite the balls array according to the frequency
+      int idx = 0;
+      for (int color = 0; color < NUM_OF_COLOR; ++color) {
+         while (frequency[color] > 0) {
+            balls[idx] = ColorSort.Color.valueOf(color);
+            ++idx;
+            --frequency[color];
          }
       }
    }
 
 }
+
