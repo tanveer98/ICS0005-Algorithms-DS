@@ -207,9 +207,9 @@ public class ColorSortTest {
       assertTrue ("Result incorrect", check (balls, rCount, gCount, bCount));
     }
 
-    @Test (timeout=1000)
+    @Test (timeout=10000)
     public void testSpeed() {
-      balls = new ColorSort.Color [1000000];
+      balls = new ColorSort.Color [100000];
       rCount = 0;
       gCount = 0;
       bCount = 0;
@@ -230,6 +230,7 @@ public class ColorSortTest {
       ColorSort.reorder (balls);
       long t1 = System.currentTimeMillis();
       int delta = (int)(t1-t0);
+      System.out.println ("Time spent: " + delta + " ms");
       assertTrue ("Result incorrect", check (balls, rCount, gCount, bCount));
       assertTrue ("Too slow: "+ delta, delta < threshold);
       System.out.println ("Time spent: " + delta + " ms");
