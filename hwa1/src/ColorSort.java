@@ -47,7 +47,7 @@ class CountSort {
 
       Arrays.stream(balls)
             .forEach(ball -> {
-               int color = ball.getValue();
+               int color= ball.getValue();
                ++frequency[color];
              });
 
