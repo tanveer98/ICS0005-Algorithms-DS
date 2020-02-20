@@ -32,7 +32,6 @@ public class ColorSort {
 
    public static void reorder(Color[] balls) {
       CountSort.sort(balls);
-      // Arrays.sort(balls);
    }
 }
 
@@ -44,12 +43,10 @@ class CountSort {
 
       //array to store the frequency of each enums.
       int frequency[] = new int[NUM_OF_COLOR];
-
-      Arrays.stream(balls)
-            .forEach(ball -> {
-               int color= ball.getValue();
-               ++frequency[color];
-             });
+      int len = balls.length;
+      for( int i = 0; i < n; i++) {
+      	++frequency[ball[i].getValue()];
+      }
 
       //Overwrite the balls array according to the frequency
       int idx = 0;
@@ -60,6 +57,7 @@ class CountSort {
             --frequency[color];
          }
       }
+      
    }
 
 }
