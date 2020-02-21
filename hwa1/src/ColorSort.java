@@ -1,18 +1,19 @@
 import java.util.*;
 
 public class ColorSort {
-   // similar to {red = 0, green = 1, blue = 2} in C/C++ enums.
+   private static final int NUM_OF_COLOR = 3;
+   private static int[] frequency = null;
    enum Color {
       red(0), green(1), blue(2);
 
       private final int value;
-      
+
       private Color(int val) {
          this.value = val;
       }
 
       public static Color valueOf(int val) {
-         if(val == 0) {
+         if (val == 0) {
             return Color.red;
          } else if (val == 1) {
             return Color.green;
@@ -27,38 +28,17 @@ public class ColorSort {
    };
 
    public static void main(String[] param) {
-      // for debugging
    }
 
    public static void reorder(Color[] balls) {
-      CountSort.sort(balls);
-   }
-}
-
-class CountSort {
-
-   public static final int NUM_OF_COLOR = 3;
-
-   public static void sort(ColorSort.Color balls[]) {
-
-      //array to store the frequency of each enums.
-      int frequency[] = new int[NUM_OF_COLOR];
+      frequency = new int[NUM_OF_COLOR];
       int len = balls.length;
-      for( int i = 0; i < n; i++) {
-      	++frequency[ball[i].getValue()];
+      for (int i = 0; i < len; i++) {
+         ++frequency[balls[i].getValue()];
       }
-
-      //Overwrite the balls array according to the frequency
-      int idx = 0;
-      for (int color = 0; color < NUM_OF_COLOR; ++color) {
-         while (frequency[color] > 0) {
-            balls[idx] = ColorSort.Color.valueOf(color);
-            ++idx;
-            --frequency[color];
-         }
+      int totalFilled = 0;
+      for (int i = 0; i < NUM_OF_COLOR; ++i) {
+         Arrays.fill(balls, totalFilled, (totalFilled += frequency[i]), ColorSort.Color.valueOf(i));
       }
-      
    }
-
 }
-
