@@ -1,8 +1,8 @@
 import java.util.*;
 
 /**
- * Comparison of sorting methods. The same array of double values is
- * used for all methods.
+ * Comparison of sorting methods. The same array of double values is used for
+ * all methods.
  * 
  * @author Jaanus
  * @version 1.0
@@ -19,14 +19,13 @@ public class DoubleSorting {
    /**
     * Main method.
     * 
-    * @param args
-    *           command line parameters
+    * @param args command line parameters
     */
    public static void main(String[] args) {
       final double[] origArray = new double[MAX_SIZE];
       Random generator = new Random();
       for (int i = 0; i < MAX_SIZE; i++) {
-         origArray[i] = generator.nextDouble()*1000.;
+         origArray[i] = generator.nextDouble() * 1000.;
       }
       int rightLimit = MAX_SIZE / (int) Math.pow(2., NUMBER_OF_ROUNDS);
 
@@ -83,8 +82,7 @@ public class DoubleSorting {
    /**
     * Insertion sort.
     * 
-    * @param a
-    *           array to be sorted
+    * @param a array to be sorted
     */
    public static void insertionSort(double[] a) {
       if (a.length < 2)
@@ -104,22 +102,26 @@ public class DoubleSorting {
    /**
     * Binary insertion sort.
     * 
-    * @param a
-    *           array to be sorted
+    * @param a array to be sorted
     */
    public static void binaryInsertionSort(double[] a) {
-      // TODO!!!
+      // Arrays.binarySearch retuns the (- position - 1) == return value.
+      // we shift the (sorted array) one position to the write (which overwrites a[i])
+      // and insert the value a[i] into a[pos]
+      for (int i = 1; i < a.length; i++) {
+         double item = a[i];
+         int pos = Math.abs(Arrays.binarySearch(a, 0, i, item) + 1);
+         System.arraycopy(a, pos, a, pos + 1, i - pos);
+         a[pos] = item;
+      }
    }
 
    /**
     * Merge sort.
     * 
-    * @param array
-    *           array to be sorted
-    * @param left
-    *           begin of an interval (included)
-    * @param right
-    *           end of an interval (excluded)
+    * @param array array to be sorted
+    * @param left  begin of an interval (included)
+    * @param right end of an interval (excluded)
     */
    public static void mergeSort(double[] array, int left, int right) {
       if (array.length < 2)
@@ -135,14 +137,10 @@ public class DoubleSorting {
    /**
     * Merge two intervals.
     * 
-    * @param array
-    *           original
-    * @param left
-    *           start1
-    * @param k
-    *           start2 = end1
-    * @param right
-    *           end2
+    * @param array original
+    * @param left  start1
+    * @param k     start2 = end1
+    * @param right end2
     */
    static public void merge(double[] array, int left, int k, int right) {
       if (array.length < 2 || (right - left) < 2 || k <= left || k >= right)
@@ -178,12 +176,9 @@ public class DoubleSorting {
    /**
     * Sort a part of the array using quicksort method.
     * 
-    * @param array
-    *           array to be changed
-    * @param l
-    *           starting index (included)
-    * @param r
-    *           ending index (excluded)
+    * @param array array to be changed
+    * @param l     starting index (included)
+    * @param r     ending index (excluded)
     */
    public static void quickSort(double[] array, int l, int r) {
       if (array == null || array.length < 1 || l < 0 || r <= l)
@@ -215,10 +210,8 @@ public class DoubleSorting {
    /**
     * Check whether an array is ordered.
     * 
-    * @param a
-    *           sorted (?) array
-    * @throws IllegalArgumentException
-    *            if an array is not ordered
+    * @param a sorted (?) array
+    * @throws IllegalArgumentException if an array is not ordered
     */
    static void checkOrder(double[] a) {
       if (a.length < 2)
@@ -231,4 +224,3 @@ public class DoubleSorting {
    }
 
 }
-
