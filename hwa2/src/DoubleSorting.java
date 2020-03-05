@@ -100,19 +100,43 @@ public class DoubleSorting {
    }
 
    /**
+    * Binary Search
+    *
+    * @param a       array of doubles to be searched in
+    * @param lastIdx last index (exclusive) to search
+    * @param key     the double value to be searched in a
+    * 
+    * @return  the index of the key inside array a
+    */
+   
+   private static int binarySearch(double[] a, int low, int hi, double key) {
+
+      if (hi <= low) 
+        return (key > a[low])?  (low + 1): low; 
+  
+    int mid = (low + hi)/2; 
+  
+    if(key == a[mid]) 
+        return mid+1;  
+    if(key > a[mid]) 
+        return binarySearch(a, mid+1, hi, key); 
+    return binarySearch(a, low, mid-1, key); 
+   }
+
+   /**
     * Binary insertion sort.
     * 
     * @param a array to be sorted
     */
    public static void binaryInsertionSort(double[] a) {
-      // Arrays.binarySearch retuns the (- position - 1) == return value.
-      // we shift the (sorted array) one position to the write (which overwrites a[i])
-      // and insert the value a[i] into a[pos]
+      int pos, hi;
+      double key;
       for (int i = 1; i < a.length; i++) {
-         double item = a[i];
-         int pos = Math.abs(Arrays.binarySearch(a, 0, i, item) + 1);
+         hi = i - 1;
+         key = a[i];
+         pos = binarySearch(a, 0, hi, key);
          System.arraycopy(a, pos, a, pos + 1, i - pos);
-         a[pos] = item;
+         a[pos] = key;
       }
    }
 
