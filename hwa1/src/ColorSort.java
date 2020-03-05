@@ -13,13 +13,14 @@ public class ColorSort {
       }
 
       public static Color valueOf(int val) {
-         if (val == 0) {
-            return Color.red;
-         } else if (val == 1) {
+         switch(val) {
+            case 0:
+              return Color.red;
+            case 1:
             return Color.green;
-         } else {
-            return Color.blue;
-         }
+            default:
+               return Color.blue;
+          }
       }
 
       public int getValue() {
@@ -41,4 +42,4 @@ public class ColorSort {
          Arrays.fill(balls, totalFilled, (totalFilled += frequency[i]), ColorSort.Color.valueOf(i));
       }
    }
-}
+} 
