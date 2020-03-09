@@ -102,25 +102,27 @@ public class DoubleSorting {
    /**
     * Binary Search
     *
-    * @param a       array of doubles to be searched in
-    * @param lastIdx last index (exclusive) to search
-    * @param key     the double value to be searched in a
+    * @param a   array of doubles to be searched in
+    * @param low first index to search
+    * @param hi  last index (exclusive) to search
+    * @param key the double value to be searched in a
     * 
-    * @return  the index of the key inside array a
+    * @return the index of the key inside array a
     */
-   
-   private static int binarySearch(double[] a, int low, int hi, double key) {
 
-      if (hi <= low) 
-        return (key > a[low])?  (low + 1): low; 
-  
-    int mid = (low + hi)/2; 
-  
-    if(key == a[mid]) 
-        return mid+1;  
-    if(key > a[mid]) 
-        return binarySearch(a, mid+1, hi, key); 
-    return binarySearch(a, low, mid-1, key); 
+   private static int binarySearch(double[] a, int low, int hi, double key) {
+      // value is not in the array.
+      if (hi <= low)
+         return (key > a[low]) ? (low + 1) : low;
+
+      int mid = (low + hi) / 2;
+
+      if (key == a[mid])
+         return mid + 1;
+
+      if (key > a[mid])
+         return binarySearch(a, mid + 1, hi, key); //search right array
+      return binarySearch(a, low, mid - 1, key);   //search left array
    }
 
    /**
