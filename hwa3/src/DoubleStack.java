@@ -177,8 +177,10 @@ public class DoubleStack implements Iterable<Double> {
       return ret; // TODO!!! Your code here!
    }
 
-   private static boolean isLegal(String s) {
-      return !s.matches("^[a-zA-Z]*$");
+   private static boolean hasAlpha(String s) {
+      String regex = ".*[a-zA-Z]+";
+      Pattern pattern = Pattern.compile(regex);
+      return  pattern.matcher(s).find();
    }
 
    private static double parseDouble(String s) throws IllegalArgumentException {
@@ -193,22 +195,30 @@ public class DoubleStack implements Iterable<Double> {
       }
    }
 
+   private static boolean isOperator(String token) {
+      String patt = "^([\\*\\+\\-/])+";
+      return token.matches(patt);
+   }
+
    public static double interpret(String pol) {
       String sanitized = pol.strip();
+
+      if (hasAlpha(sanitized)) {
+         throw new RuntimeException();
+      }
+
       String stck = sanitized;
       StringTokenizer tokenizer = new StringTokenizer(sanitized);
       int len = sanitized.length(), pos = 0;
       DoubleStack doubleStack = null;
 
-      if (!isLegal(sanitized)) {
-         throw new RuntimeException("Illegal interpret string");
-      }
-
+    
       doubleStack = new DoubleStack();
       while (tokenizer.hasMoreTokens()) {
          double a = 0d;
          stck = tokenizer.nextToken();
-         if (stck.equals("+") || stck.equals("-") || stck.equals("*") || stck.equals("/")) {
+         //if (stck.equals("+") || stck.equals("-") || stck.equals("*") || stck.equals("/")) {
+         if(isOperator(stck)) {  
             doubleStack.op(stck);
          } else {
             try {
@@ -216,7 +226,8 @@ public class DoubleStack implements Iterable<Double> {
                doubleStack.push(a);
             } catch (IllegalArgumentException e) {
                //e.printStackTrace();
-               System.out.println(stck);
+               
+               System.out.println("Exception caught :( " + stck);
             }
          }
 
@@ -280,7 +291,7 @@ public class DoubleStack implements Iterable<Double> {
       clone.op(" + ");
       System.out.println(clone.tos());
 
-      System.out.println(DoubleStack.interpret("1.  2.    +"));
+      System.out.println(DoubleStack.interpret("35. 10. -3. + x 2."));
 
    }
 
