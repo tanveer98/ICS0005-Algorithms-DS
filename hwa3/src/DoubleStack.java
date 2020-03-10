@@ -1,11 +1,9 @@
 import java.util.*;
 import java.util.regex.*;
 
-import javax.management.RuntimeErrorException;
-
 public class DoubleStack implements Iterable<Double> {
 
-   Node top;
+   private Node top;
    private Node first;
    private int size;
 
@@ -24,19 +22,19 @@ public class DoubleStack implements Iterable<Double> {
          this.val = a;
       }
 
-      Node getNext() {
+      public Node getNext() {
          return this.next;
       }
 
-      void setNext(Node next) {
+      public void setNext(Node next) {
          this.next = next;
       }
 
-      Node getPrev() {
+      public Node getPrev() {
          return this.prev;
       }
 
-      void setPrev(Node prev) {
+      public void setPrev(Node prev) {
          this.prev = prev;
       }
    }
@@ -89,7 +87,7 @@ public class DoubleStack implements Iterable<Double> {
       size++;
    }
 
-   public double pop() {
+   public double pop() throws RuntimeException {
       // TODO!!! Your code here!
       if (this.stEmpty()) {
          System.out.println("Stack empty!, nothing more to pop!");
@@ -104,9 +102,14 @@ public class DoubleStack implements Iterable<Double> {
       return ret;
    }
 
-   public void op(String s) {
+   public void op(String s) throws RuntimeException {
       // TODO!!!
-      char operand = s.strip().charAt(0);
+      
+      StringTokenizer st = new StringTokenizer(s);
+      if(st.countTokens() > 1) {
+         throw new RuntimeException("op has more operands than necessary");
+      }
+      char operand = st.nextToken().charAt(0);
       switch (operand) {
          case '+': {
             double d1 = this.pop();
@@ -131,6 +134,9 @@ public class DoubleStack implements Iterable<Double> {
             double d2 = this.pop();
             this.push((d2 / d1));
             break;
+         }
+         default: {
+            throw new RuntimeException("Invalid operand");
          }
 
       }
@@ -177,10 +183,17 @@ public class DoubleStack implements Iterable<Double> {
       return ret; // TODO!!! Your code here!
    }
 
-   private static boolean hasAlpha(String s) {
-      String regex = ".*[a-zA-Z]+";
+   private static Optional<String> hasAlpha(String s) {
+      String regex = "([a-zA-Z]+)";
       Pattern pattern = Pattern.compile(regex);
-      return  pattern.matcher(s).find();
+      Matcher matcher = pattern.matcher(s);
+      if(matcher.find()) {
+         String ret = matcher.group(0);
+         return Optional.of(ret);
+      }
+       else {
+          return Optional.empty();
+      }
    }
 
    private static double parseDouble(String s) throws IllegalArgumentException {
@@ -201,15 +214,14 @@ public class DoubleStack implements Iterable<Double> {
    }
 
    public static double interpret(String pol) {
-      String sanitized = pol.strip();
-
-      if (hasAlpha(sanitized)) {
-         throw new RuntimeException();
+      String sanitized = pol.trim();
+      Optional<String> str = hasAlpha(sanitized);
+      if (str.isPresent() ) {
+         throw new RuntimeException("interpret string " + pol +"contains invalid alphabet character '" + str.get() + "'");
       }
 
       String stck = sanitized;
       StringTokenizer tokenizer = new StringTokenizer(sanitized);
-      int len = sanitized.length(), pos = 0;
       DoubleStack doubleStack = null;
 
     
@@ -226,7 +238,6 @@ public class DoubleStack implements Iterable<Double> {
                doubleStack.push(a);
             } catch (IllegalArgumentException e) {
                //e.printStackTrace();
-               
                System.out.println("Exception caught :( " + stck);
             }
          }
@@ -241,13 +252,11 @@ public class DoubleStack implements Iterable<Double> {
 
    /*** Iterator class ***/
    class DoubleStackIterator implements Iterator<Double> {
-      DoubleStack stack;
-      Node node;
+      private Node node;
 
       // constructor
       DoubleStackIterator(DoubleStack stack) {
          // initialize cursor
-         this.stack = stack;
          this.node = stack.top;
       }
 
@@ -291,7 +300,7 @@ public class DoubleStack implements Iterable<Double> {
       clone.op(" + ");
       System.out.println(clone.tos());
 
-      System.out.println(DoubleStack.interpret("35. 10. -3. + x 2."));
+      System.out.println(DoubleStack.interpret("35. 10. -3. + a 2."));
 
    }
 
