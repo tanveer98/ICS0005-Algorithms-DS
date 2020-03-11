@@ -104,17 +104,19 @@ public class DoubleStack implements Iterable<Double> {
 
    public void op(String s) throws RuntimeException {
       // TODO!!!
-      
       StringTokenizer st = new StringTokenizer(s);
-      if(st.countTokens() > 1) {
-         throw new RuntimeException("op has more operands than necessary");
+      if (st.countTokens() > 1) {
+         throw new RuntimeException("op " + s + "has more operands than necessary");
       }
-      char operand = st.nextToken().charAt(0);
-      switch (operand) {
+      if (this.length() < 2) {
+         throw new RuntimeException("Stack size of too small for operation! " + s);
+      }
+      String operand = st.nextToken();
+      switch (operand.charAt(0)) {
          case '+': {
             double d1 = this.pop();
             double d2 = this.pop();
-            this.push((d1 + d2));
+            this.push((d2 + d1));
             break;
          }
          case '-': {
@@ -126,7 +128,7 @@ public class DoubleStack implements Iterable<Double> {
          case '*': {
             double d1 = this.pop();
             double d2 = this.pop();
-            this.push((d1 * d2));
+            this.push((d2 * d1));
             break;
          }
          case '/': {
@@ -136,7 +138,7 @@ public class DoubleStack implements Iterable<Double> {
             break;
          }
          default: {
-            throw new RuntimeException("Invalid operand");
+            throw new RuntimeException("Invalid operand " + operand + "in  op string " + s);
          }
 
       }
@@ -187,12 +189,11 @@ public class DoubleStack implements Iterable<Double> {
       String regex = "([a-zA-Z]+)";
       Pattern pattern = Pattern.compile(regex);
       Matcher matcher = pattern.matcher(s);
-      if(matcher.find()) {
+      if (matcher.find()) {
          String ret = matcher.group(0);
          return Optional.of(ret);
-      }
-       else {
-          return Optional.empty();
+      } else {
+         return Optional.empty();
       }
    }
 
@@ -204,7 +205,7 @@ public class DoubleStack implements Iterable<Double> {
       if (matcher.find()) {
          return Double.parseDouble(matcher.group(0));
       } else {
-         throw new IllegalArgumentException("Could not find double val in string");
+         throw new IllegalArgumentException("Could not find double val in string " + s);
       }
    }
 
@@ -216,36 +217,31 @@ public class DoubleStack implements Iterable<Double> {
    public static double interpret(String pol) {
       String sanitized = pol.trim();
       Optional<String> str = hasAlpha(sanitized);
-      if (str.isPresent() ) {
-         throw new RuntimeException("interpret string " + pol +"contains invalid alphabet character '" + str.get() + "'");
+      if (str.isPresent()) {
+         throw new RuntimeException( "interpret string " + pol + "contains invalid alphabet character '" + str.get() + "'");
       }
 
       String stck = sanitized;
       StringTokenizer tokenizer = new StringTokenizer(sanitized);
       DoubleStack doubleStack = null;
 
-    
       doubleStack = new DoubleStack();
       while (tokenizer.hasMoreTokens()) {
          double a = 0d;
          stck = tokenizer.nextToken();
-         //if (stck.equals("+") || stck.equals("-") || stck.equals("*") || stck.equals("/")) {
-         if(isOperator(stck)) {  
+         // if (stck.equals("+") || stck.equals("-") || stck.equals("*") ||
+         // stck.equals("/")) {
+         if (isOperator(stck)) {
             doubleStack.op(stck);
          } else {
-            try {
-               a = parseDouble(stck);
-               doubleStack.push(a);
-            } catch (IllegalArgumentException e) {
-               //e.printStackTrace();
-               System.out.println("Exception caught :( " + stck);
-            }
+            a = parseDouble(stck);
+            doubleStack.push(a);
          }
 
       }
       double ret = doubleStack.pop();
       if (!doubleStack.stEmpty()) {
-         throw new RuntimeException("Invalid interpret string!");
+         throw new RuntimeException("Invalid interpret string! : " + pol);
       }
       return ret; // TODO!!! Your code here!
    }
