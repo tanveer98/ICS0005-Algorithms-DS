@@ -175,14 +175,14 @@ public class DoubleStack implements Iterable<Double> {
 
    @Override
    public String toString() {
-      String ret = "";
+      StringBuffer ret = new StringBuffer();
       Node bottom = first;
       while (bottom != null) {
          Double d = bottom.val;
-         ret += (d.toString() + " ");
+         ret.append(d.toString() + " ");
          bottom = bottom.getPrev();
       }
-      return ret; // TODO!!! Your code here!
+      return ret.toString(); // TODO!!! Your code here!
    }
 
    private static Optional<String> hasAlpha(String s) {
