@@ -105,36 +105,60 @@ public class DoubleStack implements Iterable<Double> {
    public void op(String s) throws RuntimeException {
       // TODO!!!
       StringTokenizer st = new StringTokenizer(s);
+      String operand = null;
+
       if (st.countTokens() > 1) {
          throw new RuntimeException("op " + s + "has more operands than necessary");
       }
+
       if (this.length() < 2) {
          throw new RuntimeException("Stack size of too small for operation! " + s);
       }
-      String operand = st.nextToken();
-      switch (operand.charAt(0)) {
-         case '+': {
-            double d1 = this.pop();
+
+      operand = st.nextToken();
+      switch (operand) {
+         case "+": {
+            double d1 = this.pop(); 
             double d2 = this.pop();
             this.push((d2 + d1));
             break;
          }
-         case '-': {
+         case "-": {
             double d1 = this.pop();
             double d2 = this.pop();
             this.push((d2 - d1));
             break;
          }
-         case '*': {
+         case "*": {
             double d1 = this.pop();
             double d2 = this.pop();
             this.push((d2 * d1));
             break;
          }
-         case '/': {
+         case "/": {    
             double d1 = this.pop();
             double d2 = this.pop();
             this.push((d2 / d1));
+            break;
+         }
+         case "SWAP": {
+            double d1 = this.pop();
+            double d2 = this.pop();
+            this.push(d1);
+            this.push(d2);
+            break;
+         }
+         case "ROT": {
+         if (this.length() < 3) {
+            throw new RuntimeException("Stack size of too small for operation! " + s);
+         }
+            double c = this.pop();
+            double b = this.pop();
+            double a = this.pop();
+
+            this.push(b);
+            this.push(c);
+            this.push(a);
             break;
          }
          default: {
@@ -189,12 +213,15 @@ public class DoubleStack implements Iterable<Double> {
       String regex = "([a-zA-Z]+)";
       Pattern pattern = Pattern.compile(regex);
       Matcher matcher = pattern.matcher(s);
-      if (matcher.find()) {
-         String ret = matcher.group(0);
-         return Optional.of(ret);
-      } else {
-         return Optional.empty();
-      }
+      while (matcher.find()) {
+         String ret = matcher.group();
+         Pattern pattern2 = Pattern.compile("(SWAP|ROT)");
+         Matcher matcher2 = pattern2.matcher(ret);
+         if(!matcher2.find()) {
+            return Optional.of(ret);
+         }
+      } 
+      return Optional.empty();
    }
 
    private static double parseDouble(String s) throws IllegalArgumentException {
@@ -210,8 +237,9 @@ public class DoubleStack implements Iterable<Double> {
    }
 
    private static boolean isOperator(String token) {
-      String patt = "^([\\*\\+\\-/])+";
-      return token.matches(patt);
+      // String patt = "^([\\*\\+\\-/])+";
+      String patt = "^([\\*|\\+|\\-|\\/|SWAP|ROT])$";
+      return Pattern.compile(patt).matcher(token).find();
    }
 
    public static double interpret(String pol) {
@@ -229,15 +257,12 @@ public class DoubleStack implements Iterable<Double> {
       while (tokenizer.hasMoreTokens()) {
          double a = 0d;
          stck = tokenizer.nextToken();
-         // if (stck.equals("+") || stck.equals("-") || stck.equals("*") ||
-         // stck.equals("/")) {
          if (isOperator(stck)) {
             doubleStack.op(stck);
          } else {
             a = parseDouble(stck);
             doubleStack.push(a);
          }
-
       }
       double ret = doubleStack.pop();
       if (!doubleStack.stEmpty()) {
@@ -278,26 +303,11 @@ public class DoubleStack implements Iterable<Double> {
 
    public static void main(String[] argum) {
       System.out.println("Hello world!");
-      DoubleStack d = new DoubleStack();
-      DoubleStack clone = null;
-      d.push(5.0d);
-      d.push(6.0d);
-      d.push(-1.01d);
-      // d.pop();
-      try {
-         clone = (DoubleStack) d.clone();
-      } catch (Exception e) {
-         e.printStackTrace();
-      }
-
-      d.pop();
-      System.out.println(d.toString());
-      System.out.println(clone.equals(d));
-      clone.op(" + ");
-      System.out.println(clone.tos());
-
-      System.out.println(DoubleStack.interpret("35. 10. -3. + a 2."));
-
+   
+      assert (DoubleStack.interpret( "2 5 SWAP -") == 3.0);
+      assert (DoubleStack.interpret("2 5 9 ROT - +") == 12.0);
+      assert (DoubleStack.interpret("2 5 9 ROT + SWAP -") == 6.0);
+      assert (DoubleStack.interpret("35. 10. -3. + /") == 5.0);
    }
 
 }
