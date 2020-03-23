@@ -8,14 +8,13 @@ public class Lfraction implements Comparable<Lfraction> {
 
    /** Main method. Different tests. */
    public static void main(String[] param) {
-      Lfraction pi = Lfraction.toLfraction(3.1416, 8L);
+      Lfraction pi = Lfraction.valueOf(" 5/3 Sneed");
       System.out.println(pi.toString());
 
    }
 
    private final long numerator;
    private final long denominator;
-   private final long gcd;
 
    private static long gcd(long num, long denom) {
       if (denom == 0L)
@@ -45,9 +44,9 @@ public class Lfraction implements Comparable<Lfraction> {
          throw new RuntimeException("Invalid value for denominator " + denom);
       } else {
          long gcd = (Lfraction.gcd(num, denom));
-         this.gcd = ((gcd < 0) ? (-gcd) : (gcd));
-         numerator = (long) (num / this.gcd);
-         denominator = (long) (denom / this.gcd);
+         gcd = ((gcd < 0) ? (-gcd) : (gcd));
+         numerator = (long) (num / gcd);
+         denominator = (long) (denom / gcd);
       }
    }
 
@@ -148,7 +147,14 @@ public class Lfraction implements Comparable<Lfraction> {
     * @return inverse of this fraction: 1/this
     */
    public Lfraction inverse() {
-      return new Lfraction(getDenominator(), getNumerator());
+      
+      if(getNumerator() == 0) {
+         throw new RuntimeException("Cannot inverse fraction with 0 as numerator >" + this.toString());
+      } else {
+         long num = getDenominator();
+         long denom = getNumerator();
+         return new Lfraction(num, denom);
+      }
    }
 
    /**
@@ -177,8 +183,11 @@ public class Lfraction implements Comparable<Lfraction> {
     * @param m divisor
     * @return this/m
     */
-   public Lfraction divideBy(Lfraction rhs) {
-      return times(rhs.inverse());
+   public Lfraction divideBy(Lfraction m) {
+      if(m.getNumerator() == 0) {
+         throw new RuntimeException("cannot divide by zero! Error value is >" + m.toString());
+      }
+      return times(m.inverse());
    }
 
    /**
@@ -267,10 +276,12 @@ public class Lfraction implements Comparable<Lfraction> {
     */
    public static Lfraction valueOf(String s) {
       StringTokenizer st = new StringTokenizer(s," \n\r\t/");
-      long num,denom;
-      num = Long.parseLong(st.nextToken());
-      denom = Long.parseLong(st.nextToken());
-
+      Long num,denom;
+      num = Long.valueOf(st.nextToken());
+      denom = Long.valueOf(st.nextToken());
+      if( denom == null || denom.equals(0L)) {
+         throw new RuntimeException("Invalid string! >" + s);
+      }
       return new Lfraction(num, denom);
    }
 }
