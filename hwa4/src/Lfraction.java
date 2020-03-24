@@ -88,7 +88,7 @@ public class Lfraction implements Comparable<Lfraction> {
    @Override
    public boolean equals(Object m) {
       Lfraction rhs = (Lfraction) m;
-      if ( (getNumerator() == rhs.getNumerator()) && (getDenominator() == rhs.getDenominator()) )
+      if (compareTo(rhs) == 0)
          return true;
       return false;
    }
@@ -276,9 +276,15 @@ public class Lfraction implements Comparable<Lfraction> {
     */
    public static Lfraction valueOf(String s) {
       StringTokenizer st = new StringTokenizer(s," \n\r\t/");
-      Long num,denom;
-      num = Long.valueOf(st.nextToken());
-      denom = Long.valueOf(st.nextToken());
+      Long num = null,denom = null;
+      try {
+         num = Long.valueOf(st.nextToken());
+         denom = Long.valueOf(st.nextToken());
+      } catch (Exception e) {
+         System.out.println("Error in String >" + s + " Please provide valid string to parse!");
+         e.printStackTrace();
+      }
+
       if( denom == null || denom.equals(0L)) {
          throw new RuntimeException("Invalid string! >" + s);
       }
