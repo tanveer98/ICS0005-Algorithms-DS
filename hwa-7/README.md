@@ -4,7 +4,8 @@ This repository is read-only, make a private fork in the bitbucket server
 for your own files. Clone this forked repository to your local computer and solve
 the task.
 
-See on neljanda kodutöö failide hoidla, mida saab kasutada ainult algseks lugemiseks.
+
+See on seitsmenda kodutöö failide hoidla, mida saab kasutada ainult algseks lugemiseks.
 Töötamiseks looge endale isiklik repositoorium, näiteks privaatne 'fork' bitbucket serverisse, millest saate luua klooni oma arvutisse.
 
 ## Command line examples. Näidete kasutamine käsurealt ##
@@ -13,7 +14,7 @@ Töötamiseks looge endale isiklik repositoorium, näiteks privaatne 'fork' bitb
 ```
 #!bash
 
-javac -cp src src/Lfraction.java
+javac -cp src src/Puzzle.java
 ```
 
 #### Execution. Käivitamine: ####
@@ -21,7 +22,7 @@ javac -cp src src/Lfraction.java
 ```
 #!bash
 
-java -cp src Lfraction
+java -cp src Puzzle
 ```
 
 
@@ -31,7 +32,7 @@ java -cp src Lfraction
 ```
 #!bash
 
-javac -encoding utf8 -cp 'src:test:test/junit-4.13.jar:test/hamcrest-core-1.3.jar' test/LfractionTest.java
+javac -encoding utf8 -cp 'src:test:test/junit-4.13.jar:test/hamcrest-core-1.3.jar' test/PuzzleTest.java
 
 ```
 In Windows replace colons by semicolons. Sama Windows aknas (koolonite asemel peavad olema semikoolonid):
@@ -39,7 +40,7 @@ In Windows replace colons by semicolons. Sama Windows aknas (koolonite asemel pe
 ```
 #!bash
 
-javac -encoding utf8 -cp 'src;test;test/junit-4.13.jar;test/hamcrest-core-1.3.jar' test/LfractionTest.java
+javac -encoding utf8 -cp 'src;test;test/junit-4.13.jar;test/hamcrest-core-1.3.jar' test/PuzzleTest.java
 
 
 ```
@@ -49,7 +50,7 @@ javac -encoding utf8 -cp 'src;test;test/junit-4.13.jar;test/hamcrest-core-1.3.ja
 ```
 #!bash
 
-java -cp 'src:test:test/junit-4.13.jar:test/hamcrest-core-1.3.jar' org.junit.runner.JUnitCore LfractionTest
+java -cp 'src:test:test/junit-4.13.jar:test/hamcrest-core-1.3.jar' org.junit.runner.JUnitCore PuzzleTest
 ```
 
 The same for Windows. Sama Windows aknas (koolonite asemel semikoolonid):
@@ -57,5 +58,6 @@ The same for Windows. Sama Windows aknas (koolonite asemel semikoolonid):
 ```
 #!bash
 
-java -cp 'src;test;test/junit-4.13.jar;test/hamcrest-core-1.3.jar' org.junit.runner.JUnitCore LfractionTest
+java -cp 'src;test;test/junit-4.13.jar;test/hamcrest-core-1.3.jar' org.junit.runner.JUnitCore PuzzleTest
 ```
+
